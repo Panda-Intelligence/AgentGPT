@@ -1,0 +1,42 @@
+{
+  "name": "@panda-ai/agent-gpt-api",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "wrangler dev --test-scheduled",
+    "dev:node": "bun run ./src/api/node-entry.ts",
+    "types": "wrangler types",
+    "generate": "drizzle-kit generate",
+    "studio": "drizzle-kit studio",
+    "deploy": "wrangler deploy --minify src/worker.ts",
+    "clean": "rm -rf .turbo node_modules"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.750.0",
+    "@aws-sdk/s3-presigned-post": "^3.750.0",
+    "@aws-sdk/s3-request-presigner": "^3.750.0",
+    "@cloudflare/workers-wasi": "^0.0.5",
+    "@hono/node-server": "^1.13.8",
+    "@hono/swagger-ui": "^0.5.0",
+    "@hono/zod-openapi": "^0.18.4",
+    "@hono/zod-validator": "^0.4.3",
+    "@pinecone-database/pinecone": "^5.0.2",
+    "@supabase/supabase-js": "^2.49.1",
+    "ai": "^4.1.46",
+    "axios": "^1.8.1",
+    "gpt3-tokenizer": "^1.1.5",
+    "hono": "^4.6.20",
+    "langchain": "^0.3.19",
+    "openai": "^4.85.4",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "bun-types": "^1.1.44",
+    "drizzle-kit": "^0.30.2",
+    "typescript": "^5.7.3",
+    "wrangler": "^3.107.3"
+  }
+}

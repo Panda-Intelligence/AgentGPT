@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "lib": [
+      "esnext"
+    ],
+    "types": [
+      "@cloudflare/workers-types",
+      "bun-types",
+      "./worker-configuration.d.ts"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
