@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { streamSSE } from 'hono/streaming';
-import { AgentRunRequest, getAgentService } from './dependencies';
+import { AgentRunRequest } from './dependencies';
 import { AgentTask, createTaskOutput } from './analysis';
 import { createModel } from './model-factory';
 import { TaskOutputParser } from './task-output-parser';
@@ -12,15 +12,11 @@ import {
 } from './service/agentServiceProvider';
 import { Analysis } from './analysis';
 import {
-  agentAnalyzeValidator,
-  agentChatValidator,
-  agentCreateValidator,
   agentExecuteValidator,
   agentStartValidator,
-  agentSummarizeValidator
 } from './dependencies';
 import { ToolRegistry } from './tools/tools';
-import { NewTasksResponse, ToolsResponse } from './types';
+import { AgentChatSchema, AgentSummarizeSchema, AgentTaskAnalyzeSchema, AgentTaskCreateSchema, AgentTaskExecuteSchema, NewTasksResponse, ToolsResponse } from './types';
 
 
 export function initAgentRouter(router: Hono) {
@@ -99,7 +95,7 @@ export function initAgentRouter(router: Hono) {
 
 
   // Start tasks endpoint
-  router.post('/start', zValidator('json', agentStartValidator), async (c) => {
+  router.post('/start', zValidator('json', AgentRunRequest), async (c) => {
     const reqBody = c.req.valid('json');
     const agentService = await getAgentService(agentStartValidator);
 
@@ -111,9 +107,9 @@ export function initAgentRouter(router: Hono) {
   });
 
   // Analyze tasks endpoint
-  router.post('/analyze', zValidator('json', agentAnalyzeValidator), async (c) => {
+  router.post('/analyze', zValidator('json', AgentTaskAnalyzeSchema), async (c) => {
     const reqBody = c.req.valid('json');
-    const agentService = await getAgentService(agentAnalyzeValidator);
+    const agentService = await getAgentService(AgentTaskAnalyzeSchema);
 
     const analysis = await agentService.analyzeTaskAgent(
       reqBody.goal,
@@ -124,7 +120,7 @@ export function initAgentRouter(router: Hono) {
   });
 
   // Execute tasks endpoint
-  router.post('/execute', zValidator('json', agentExecuteValidator), async (c) => {
+  router.post('/execute', zValidator('json', AgentTaskExecuteSchema), async (c) => {
     const reqBody = c.req.valid('json');
     const agentService = await getAgentService(agentExecuteValidator, true);
 
@@ -149,9 +145,9 @@ export function initAgentRouter(router: Hono) {
   });
 
   // Create tasks endpoint
-  router.post('/create', zValidator('json', agentCreateValidator), async (c) => {
+  router.post('/create', zValidator('json', AgentTaskCreateSchema), async (c) => {
     const reqBody = c.req.valid('json');
-    const agentService = await getAgentService(agentCreateValidator);
+    const agentService = await getAgentService(AgentTaskCreateSchema);
 
     const newTasks = await agentService.createTasksAgent(
       reqBody.goal,
@@ -168,10 +164,10 @@ export function initAgentRouter(router: Hono) {
   });
 
   // Summarize tasks endpoint
-  router.post('/summarize', zValidator('json', agentSummarizeValidator), async (c) => {
+  router.post('/summarize', zValidator('json', AgentSummarizeSchema), async (c) => {
     const reqBody = c.req.valid('json');
     const agentService = await getAgentService(
-      agentSummarizeValidator,
+      AgentSummarizeSchema,
       true,
       'gpt-3.5-turbo-16k'
     );
@@ -196,10 +192,10 @@ export function initAgentRouter(router: Hono) {
   });
 
   // Chat endpoint
-  router.post('/chat', zValidator('json', agentChatValidator), async (c) => {
+  router.post('/chat', zValidator('json', AgentChatSchema), async (c) => {
     const reqBody = c.req.valid('json');
     const agentService = await getAgentService(
-      agentChatValidator,
+      AgentChatSchema,
       true,
       'gpt-3.5-turbo-16k'
     );

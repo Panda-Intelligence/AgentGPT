@@ -24,8 +24,8 @@ export class OpenAILanguageModel implements LanguageModel {
 
   constructor(
     apiKey: string,
-    model: string = 'gpt-3.5-turbo',
-    maxTokens: number = 500
+    model: string = 'gpt-4o',
+    maxTokens: number = 8192
   ) {
     const configuration = { apiKey };
     this.api = new OpenAI(configuration);
@@ -39,10 +39,8 @@ export class OpenAILanguageModel implements LanguageModel {
 
   private getTokenLimit(model: string): number {
     const limits: Record<string, number> = {
-      'gpt-4': 8192,
-      'gpt-4-32k': 32768,
-      'gpt-3.5-turbo': 4096,
-      'gpt-3.5-turbo-16k': 16384,
+      'gpt-4o': 8192,
+      'gpt-4o-32k': 32768
     };
     return limits[model] || 4096;
   }
@@ -69,9 +67,9 @@ export class OpenAILanguageModel implements LanguageModel {
       }
     } catch (error: any) {
       throw new PlatformaticError({
-        code: 'OPENAI_ERROR',
-        message: error.response?.data?.error?.message || 'OpenAI API error',
-        statusCode: error.response?.status || 500,
+        key: 'OPENAI_ERROR',
+        detail: error.response?.data?.error?.message || 'OpenAI API error',
+        code: error.response?.status || 500,
       });
     }
   }

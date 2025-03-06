@@ -1,17 +1,11 @@
-name = "p-saas-api"
+name = "agent-api"
 send_metrics = false
-compatibility_date = "2023-12-18"
-compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2024-12-30"
+compatibility_flags = ["nodejs_compat"]
 main = "src/worker.ts"
 account_id = "ecc1e776355e6cac22906ab9d5d8b86a"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "pandacat-ai-dev"
-database_id = "04d05ac3-db50-4c0c-a676-399de7145542"
-migrations_dir = "migrations"
-
-[triggers]
+# [triggers]
 # Schedule cron triggers:
 # examples:
 # - At every 3rd minute
@@ -20,12 +14,12 @@ migrations_dir = "migrations"
 # crons = [ "*/3 * * * *", "0 15 1 * *", "59 23 LW * *" ]
 # For now, we're using "15 2 * * sat" to delete expired sessions from the database weekly
 # Test locally with "http://localhost:8787/__scheduled?cron=15+2+*+*+sat"
-crons = [ "15 2 * * sat" ]
+# crons = ["15 2 * * sat"]
 
 [vars]
-HIGHLIGHT_PROJECT_ID = "4g88k88g"
+# HIGHLIGHT_PROJECT_ID = "4g88k88g"
 # The necessary secrets are:
-# - APP_URL - for preventing CORS errors
+APP_URL = "http://localhost:3000"
 # - JWT_VERIFICATION_KEY - for Supabase @link https://supabase.com
 #
 # Other env variables for auth:
@@ -54,6 +48,6 @@ HIGHLIGHT_PROJECT_ID = "4g88k88g"
 # Or use the Cloudflare web interface.
 # @link https://developers.cloudflare.com/workers/platform/environment-variables/#environment-variables-via-the-dashboard
 #
-[observability.logs]
-enabled = true
-head_sampling_rate = 1
+[dev]
+# ip = "192.168.1.1"
+port = 8000

@@ -13,11 +13,13 @@ export const unauthorized = () => new HTTPException(401, 'Unauthorized');
 export const notFound = () => new HTTPException(404, 'Not Found');
 
 export class PlatformaticError extends Error {
+  public readonly key: string;
   public readonly detail: string;
   public readonly code: number;
   public readonly shouldLog: boolean;
 
   constructor(params: {
+    key?: string;
     baseError?: Error;
     detail?: string;
     code?: number;
@@ -26,6 +28,7 @@ export class PlatformaticError extends Error {
     const message = params.baseError?.message || params.detail || 'Unknown error';
     super(message);
 
+    this.key = params.key || '';
     this.name = 'PlatformaticError';
     this.detail = params.detail || message;
     this.code = params.code || 409;

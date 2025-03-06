@@ -1,8 +1,8 @@
 import { Context } from 'hono';
 import { z } from 'zod';
-import { Settings } from '@/settings';
 import { UserBase } from '@/schemas';
 import { PlatformaticError } from '../errors';
+import { Bindings } from '@/types';
 
 export const ModelSettings = z.object({
   language: z.string(),
@@ -36,15 +36,15 @@ export interface AgentService {
 }
 
 export class DefaultAgentService implements AgentService {
-  constructor(private settings: Settings) { }
+  constructor(private settings: Bindings) { }
 
   validateAndParseKey(apiKey?: string): string {
-    const envKey = this.settings.openai_api_key;
+    const envKey = this.settings.OPENAI_API_KEY;
     if (!envKey) {
       throw new PlatformaticError({
-        code: 'MISSING_API_KEY',
-        message: 'OpenAI API key not found',
-        statusCode: 400,
+        key: 'MISSING_API_KEY',
+        detail: 'OpenAI API key not found',
+        code: 400,
       });
     }
 
@@ -53,21 +53,19 @@ export class DefaultAgentService implements AgentService {
 
   getModel(settings: ModelSettings): string {
     if (!settings.model) {
-      return 'gpt-3.5-turbo';
+      return 'gpt-4o';
     }
 
     const allowedModels = new Set([
-      'gpt-4',
-      'gpt-4-32k',
-      'gpt-3.5-turbo',
-      'gpt-3.5-turbo-16k',
+      'gpt-4o',
+      'gpt-4o-32k'
     ]);
 
     if (!allowedModels.has(settings.model)) {
       throw new PlatformaticError({
-        code: 'INVALID_MODEL',
-        message: 'Invalid model specified',
-        statusCode: 400,
+        key: 'INVALID_MODEL',
+        detail: 'Invalid model specified',
+        code: 400,
       });
     }
 
@@ -77,25 +75,25 @@ export class DefaultAgentService implements AgentService {
   validateEnvironment(): void {
     if (!this.settings.openai_api_key) {
       throw new PlatformaticError({
-        code: 'MISSING_API_KEY',
-        message: 'OpenAI API key not found in environment',
-        statusCode: 500,
+        key: 'MISSING_API_KEY',
+        detail: 'OpenAI API key not found in environment',
+        code: 500,
       });
     }
   }
 }
 
 export const getAgentService = (c: Context): AgentService => {
-  return new DefaultAgentService(c.get('settings'));
+  return new DefaultAgentService(c.env);
 };
 
 export const getCurrentUser = async (c: Context): Promise<UserBase> => {
   const user = c.get('user');
   if (!user) {
     throw new PlatformaticError({
-      code: 'UNAUTHORIZED',
-      message: 'User not authenticated',
-      statusCode: 401,
+      key: 'UNAUTHORIZED',
+      detail: 'User not authenticated',
+      code: 401,
     });
   }
   return user;

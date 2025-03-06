@@ -1,3 +1,4 @@
+import { Bindings } from '@/types'
 import { Context, Hono, Next } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
@@ -20,7 +21,7 @@ export interface AppContext {
   // Add your custom context properties here
 }
 
-export function createApp<Bindings>() {
+export function createApp() {
 
   // Create Hono app with OpenAPI support
   const app = new OpenAPIHono<{ Bindings: AppContext }>();

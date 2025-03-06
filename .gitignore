@@ -54,3 +54,4 @@ yarn-error.log*
 schema.prismae
 *.sql
 backend/node_modules
+backend/.wrangler
