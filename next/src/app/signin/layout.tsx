@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 
-import AppHead from "../components/AppHead";
+import AppHead from "@/components/AppHead";
 
 interface Props extends PropsWithChildren {
   title: string;

@@ -2,7 +2,7 @@ import Spline from "@splinetool/react-spline";
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type { FC } from "react";
 import { Suspense, useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";

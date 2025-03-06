@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import type { GetServerSidePropsContext } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import type { BuiltInProviderType } from "next-auth/providers";
 import type { ClientSafeProvider } from "next-auth/react";
@@ -10,10 +10,9 @@ import type { LiteralUnion } from "next-auth/react/types";
 import React, { useState } from "react";
 import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
 
-import FadeIn from "../components/motions/FadeIn";
-import GridLayout from "../layout/grid";
-import { authOptions } from "../server/auth/auth";
-import Input from "../ui/input";
+import FadeIn from "../../components/motions/FadeIn";
+import { authOptions } from "../../server/auth/auth";
+import Input from "../../ui/input";
 
 const SignIn = ({ providers }: { providers: Provider }) => {
   const { data: session } = useSession();
@@ -26,35 +25,33 @@ const SignIn = ({ providers }: { providers: Provider }) => {
     .filter((detail): detail is ButtonDetail => detail !== undefined);
 
   return (
-    <GridLayout title="Sign in - Reworkd">
-      <div className="grid h-screen w-screen place-items-center bg-gradient-radial from-slate-1 via-20% to-transparent">
-        <div className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center gap-10">
-          <FadeIn
-            duration={1.5}
-            initialY={-50}
-            className="flex flex-col items-center justify-center gap-6 text-white invert"
-          >
-            <div className="flex flex-col items-center justify-center gap-16">
-              <Image
-                src="/logos/dark-default-gradient.svg"
-                width="150"
-                height="150"
-                alt="Reworkd AI"
-              />
-              <h1 className="bg-gradient-to-t from-white via-neutral-300 to-neutral-500 bg-clip-text text-center text-3xl font-bold leading-[1.1em] tracking-[-0.64px] text-transparent md:text-5xl">
-                Reworkd
-              </h1>
-            </div>
-          </FadeIn>
-          <FadeIn duration={1.5} delay={0.4} initialY={50}>
-            {providers.credentials && <InsecureSignin />}
-            {details.map((detail) => (
-              <ProviderSignInButton key={detail.id} detail={detail} />
-            ))}
-          </FadeIn>
-        </div>
+    <div className="grid h-screen w-screen place-items-center bg-gradient-radial from-slate-1 via-20% to-transparent">
+      <div className="flex h-full w-full max-w-screen-lg flex-col items-center justify-center gap-10">
+        <FadeIn
+          duration={1.5}
+          initialY={-50}
+          className="flex flex-col items-center justify-center gap-6 text-white invert"
+        >
+          <div className="flex flex-col items-center justify-center gap-16">
+            <Image
+              src="/logos/dark-default-gradient.svg"
+              width="150"
+              height="150"
+              alt="Reworkd AI"
+            />
+            <h1 className="bg-gradient-to-t from-white via-neutral-300 to-neutral-500 bg-clip-text text-center text-3xl font-bold leading-[1.1em] tracking-[-0.64px] text-transparent md:text-5xl">
+              Reworkd
+            </h1>
+          </div>
+        </FadeIn>
+        <FadeIn duration={1.5} delay={0.4} initialY={50}>
+          {providers.credentials && <InsecureSignin />}
+          {details.map((detail) => (
+            <ProviderSignInButton key={detail.id} detail={detail} />
+          ))}
+        </FadeIn>
       </div>
-    </GridLayout>
+    </div>
   );
 };
 

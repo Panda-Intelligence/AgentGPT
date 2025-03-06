@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -76,7 +76,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }) {
+export async function generateStaticParams({ params }: { params: { slug: string } }) {
   const postData = getPostData(params.slug);
 
   return {

@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import AppHead from "../components/AppHead";
 import FooterLinks from "../components/landing/FooterLinks";
@@ -8,7 +8,7 @@ import NavBar from "../components/NavBar";
 import { getSortedPostsData } from "../lib/posts";
 
 
-export default function BlogPage({ allPostsData }) { 
+export default function BlogPage({ allPostsData }) {
   const router = useRouter();
 
   return (
@@ -99,7 +99,7 @@ export default function BlogPage({ allPostsData }) {
   );
 }
 
-export async function getStaticProps() {
+export async function generateStaticParams() {
   const allPostsData = getSortedPostsData();
   return {
     props: {

@@ -1,6 +1,6 @@
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import FadeIn from "../components/motions/FadeIn";

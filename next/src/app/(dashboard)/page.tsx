@@ -1,32 +1,32 @@
+'use client'
 import { type GetStaticProps, type NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useEffect, useRef } from "react";
 
-import nextI18NextConfig from "../../next-i18next.config.js";
-import HelpDialog from "../components/dialog/HelpDialog";
-import { SignInDialog } from "../components/dialog/SignInDialog";
-import Chat from "../components/index/chat";
-import Landing from "../components/index/landing";
-import { useAgent } from "../hooks/useAgent";
-import { useAuth } from "../hooks/useAuth";
-import { useSettings } from "../hooks/useSettings";
-import DashboardLayout from "../layout/dashboard";
-import { AgentApi } from "../services/agent/agent-api";
-import { DefaultAgentRunModel } from "../services/agent/agent-run-model";
-import AutonomousAgent from "../services/agent/autonomous-agent";
-import { MessageService } from "../services/agent/message-service";
+import nextI18NextConfig from "../../../next-i18next.config";
+import HelpDialog from "@/components/dialog/HelpDialog";
+import { SignInDialog } from "@/components/dialog/SignInDialog";
+import Chat from "@/components/index/chat";
+import Landing from "@/components/index/landing";
+import { useAgent } from "@/hooks/useAgent";
+import { useAuth } from "@/hooks/useAuth";
+import { useSettings } from "@/hooks/useSettings";
+import { AgentApi } from "@/services/agent/agent-api";
+import { DefaultAgentRunModel } from "@/services/agent/agent-run-model";
+import AutonomousAgent from "@/services/agent/autonomous-agent";
+import { MessageService } from "@/services/agent/message-service";
 import {
   resetAllAgentSlices,
   resetAllMessageSlices,
   useAgentStore,
   useMessageStore,
-} from "../stores";
-import { useAgentInputStore } from "../stores/agentInputStore";
-import { resetAllTaskSlices, useTaskStore } from "../stores/taskStore";
-import { toApiModelSettings } from "../utils/interfaces";
-import { languages } from "../utils/languages";
-import { isEmptyOrBlank } from "../utils/whitespace";
+} from "@/stores/index";
+import { useAgentInputStore } from "@/stores/agentInputStore";
+import { resetAllTaskSlices, useTaskStore } from "@/stores/taskStore";
+import { toApiModelSettings } from "@/utils/interfaces";
+import { languages } from "@/utils/languages";
+import { isEmptyOrBlank } from "@/utils/whitespace";
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -134,14 +134,14 @@ const Home: NextPage = () => {
       handlePlay(goalInput);
     }
   };
-
+  // <DashboardLayout
+  //   onReload={() => {
+  //     agent?.stopAgent();
+  //     handleRestart();
+  //   }}
+  // >
   return (
-    <DashboardLayout
-      onReload={() => {
-        agent?.stopAgent();
-        handleRestart();
-      }}
-    >
+    <>
       <HelpDialog />
 
       <SignInDialog show={showSignInDialog} setOpen={setShowSignInDialog} />
@@ -175,19 +175,19 @@ const Home: NextPage = () => {
           )}
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = languages.map((language) => language.code);
-  const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
+// export const generateStaticParams = async ({ locale = "en" }) => {
+//   const supportedLocales = languages.map((language) => language.code);
+//   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
-  return {
-    props: {
-      ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
-    },
-  };
-};
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(chosenLocale, nextI18NextConfig.ns)),
+//     },
+//   };
+// };

@@ -1,11 +1,13 @@
+'use client'
 import clsx from "clsx";
 import type { ReactNode } from "react";
 import { useState } from "react";
 
-import AppHead from "../components/AppHead";
-import LeftSidebar from "../components/drawer/LeftSidebar";
-import { SidebarControlButton } from "../components/drawer/Sidebar";
-import { useConfigStore } from "../stores/configStore";
+import AppHead from "@/components/AppHead";
+import LeftSidebar from "@/components/drawer/LeftSidebar";
+import { SidebarControlButton } from "@/components/drawer/Sidebar";
+import { useConfigStore } from "@/stores/configStore";
+import Providers from './providers'
 
 type SidebarSettings = {
   mobile: boolean;
@@ -42,7 +44,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
   const { layout, setLayout } = useConfigStore();
 
   return (
-    <>
+    <Providers>
       <AppHead />
       {/* Left sidebar */}
       {/* Mobile */}
@@ -94,7 +96,7 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
       >
         <div className="min-w-screen min-h-screen">{props.children}</div>
       </main>
-    </>
+    </Providers>
   );
 };
 

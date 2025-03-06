@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
 import { useTranslation } from "next-i18next";
 import type { FC } from "react";
